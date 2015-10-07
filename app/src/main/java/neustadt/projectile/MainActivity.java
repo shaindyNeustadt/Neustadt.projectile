@@ -1,6 +1,5 @@
 package neustadt.projectile;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,7 +7,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
     private TextView angle;
@@ -19,15 +20,17 @@ public class MainActivity extends AppCompatActivity {
     private EditText time_entry;
     private Button calculate;
     private TextView distance;
+    private ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        image = (ImageView) findViewById(R.id.image);
+        Picasso.with(this).load("http://images.tutorvista.com/cms/images/83/projectile-motion-formulas.PNG").into(image);
+
         angle = (TextView) findViewById(R.id.angle);
         angle_entry = (EditText) findViewById(R.id.angle_entry);
-        final String angleText = angle_entry.getText().toString();
-
         velocity = (TextView) findViewById(R.id.velocity);
         velocity_entry = (EditText) findViewById(R.id.velocity_entry);
         time = (TextView) findViewById(R.id.time);
@@ -38,21 +41,14 @@ public class MainActivity extends AppCompatActivity {
         calculate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-               // Intent intent = new Intent(this, DisplayMessageActivity.class);
-                distance.setText(calculate());
-                         }
+                double angle = Double.parseDouble(angle_entry.getText().toString());
+                double velocity = Double.parseDouble(velocity_entry.getText().toString());
+                double time = Double.parseDouble(time_entry.getText().toString());
+                final Projectile p = new Projectile(angle, velocity, time);
+                distance.setText("(" + p.getX() + "," + p.getY() + ")");
+            }
         });
-         }
-public String calculate() {
-    double angle = Double.parseDouble(angle_entry.getText().toString());
-    double velocity = Double.parseDouble(velocity_entry.getText().toString());
-    double time = Double.parseDouble(time_entry.getText().toString());
-    double radians = Math.toRadians(angle);
-    double x = Math.sin(radians) * velocity * time;
-    double y = Math.cos(radians) * velocity * time
-            - (.5 * 9.8 * time * time);
-    return "(" + x + "," + y + ")";
-}
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
