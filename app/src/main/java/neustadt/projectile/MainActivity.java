@@ -1,5 +1,6 @@
 package neustadt.projectile;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -41,14 +42,26 @@ public class MainActivity extends AppCompatActivity {
         calculate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                double angle = Double.parseDouble(angle_entry.getText().toString());
-                double velocity = Double.parseDouble(velocity_entry.getText().toString());
-                double time = Double.parseDouble(time_entry.getText().toString());
-                final Projectile p = new Projectile(angle, velocity, time);
-                distance.setText("(" + p.getX() + "," + p.getY() + ")");
+
+                showAnswer();
             }
         });
     }
+
+    private void showAnswer() {
+        Intent intent = new Intent(this, AnswerActivity.class);
+
+
+        double angle = Double.parseDouble(angle_entry.getText().toString());
+        double velocity = Double.parseDouble(velocity_entry.getText().toString());
+        double time = Double.parseDouble(time_entry.getText().toString());
+        intent.putExtra("ANGLE", angle);
+        intent.putExtra("VELOCITY", velocity);
+        intent.putExtra("TIME", time);
+        startActivity(intent);
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
