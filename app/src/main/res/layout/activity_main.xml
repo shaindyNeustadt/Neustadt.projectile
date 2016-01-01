@@ -18,41 +18,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/angle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/angle" />
-
         <EditText
             android:id="@+id/angle_entry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
-
-        <TextView
-            android:id="@+id/velocity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/velocity" />
+            android:inputType="numberDecimal"
+            android:hint="ANGLE"/>
 
         <EditText
             android:id="@+id/velocity_entry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:hint="VELOCITY" />
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/time" />
-
-        <EditText
+       <EditText
             android:id="@+id/time_entry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+           android:hint="TIME"/>
 
         <Button
             android:id="@+id/calculate"

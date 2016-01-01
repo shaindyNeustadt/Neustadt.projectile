@@ -1,6 +1,7 @@
 package neustadt.projectile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,28 +14,27 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView angle;
     private EditText angle_entry;
-    private TextView velocity;
     private EditText velocity_entry;
-    private TextView time;
     private EditText time_entry;
     private Button calculate;
     private TextView distance;
     private ImageView image;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        preferences = this.getSharedPreferences("DEFAULT", MODE_PRIVATE);
+
         image = (ImageView) findViewById(R.id.image);
         Picasso.with(this).load("http://images.tutorvista.com/cms/images/83/projectile-motion-formulas.PNG").into(image);
 
-        angle = (TextView) findViewById(R.id.angle);
+
         angle_entry = (EditText) findViewById(R.id.angle_entry);
-        velocity = (TextView) findViewById(R.id.velocity);
         velocity_entry = (EditText) findViewById(R.id.velocity_entry);
-        time = (TextView) findViewById(R.id.time);
         time_entry = (EditText) findViewById(R.id.time_entry);
         calculate = (Button) findViewById(R.id.calculate);
         distance = (TextView) findViewById(R.id.distance);
@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void showAnswer() {
         Intent intent = new Intent(this, AnswerActivity.class);
-
-
         double angle = Double.parseDouble(angle_entry.getText().toString());
         double velocity = Double.parseDouble(velocity_entry.getText().toString());
         double time = Double.parseDouble(time_entry.getText().toString());
@@ -59,7 +57,24 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("VELOCITY", velocity);
         intent.putExtra("TIME", time);
         startActivity(intent);
+    }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+    SharedPreferences.Editor editor = preferences.edit();
+    editor.putString("ANGLE", angle_entry.getText().toString());
+        editor.putString("VELOCITY", velocity_entry.getText().toString());
+        editor.putString("TIME", time_entry.getText().toString());
+        editor.apply();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        angle_entry.setText(preferences.getString("ANGLE", ""));
+        velocity_entry.setText(preferences.getString("VELOCITY",""));
+        time_entry.setText(preferences.getString("TIME",""));
     }
 
     @Override
